@@ -22,10 +22,10 @@ export const FONT_OPTIONS = [
 ];
 
 export const COLOR_PRESETS = [
-  { primary: '#4338ca', secondary: '#e0e7ff', text: '#111827', accent: '#059669' },
-  { primary: '#1e40af', secondary: '#dbeafe', text: '#111827', accent: '#d97706' },
-  { primary: '#065f46', secondary: '#d1fae5', text: '#111827', accent: '#7c3aed' },
-  { primary: '#991b1b', secondary: '#fee2e2', text: '#111827', accent: '#1d4ed8' },
-  { primary: '#1f2937', secondary: '#f3f4f6', text: '#111827', accent: '#6366f1' },
-  { primary: '#7c2d8e', secondary: '#f3e8ff', text: '#111827', accent: '#ea580c' },
+  { primary: '#D99032', secondary: '#F7F3EC', text: '#10182A', accent: '#287765' },
+  { primary: '#287765', secondary: '#E9F4F1', text: '#10182A', accent: '#D99032' },
+  { primary: '#171A21', secondary: '#F5F1E8', text: '#10182A', accent: '#D99032' },
+  { primary: '#1F2635', secondary: '#F5F1E8', text: '#10182A', accent: '#287765' },
+  { primary: '#2A3B4F', secondary: '#F7F3EC', text: '#10182A', accent: '#D99032' },
+  { primary: '#163F3C', secondary: '#EAF3F0', text: '#10182A', accent: '#D99032' },
 ];

@@ -1,8 +1,8 @@
 import { clsx } from '../../utils/helpers';
 
 const variants = {
-  primary: 'bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90 shadow-sm',
-  secondary: 'bg-[var(--secondary)] text-[var(--secondary-foreground)] hover:opacity-90',
+  primary: 'bg-[var(--primary)] text-[var(--primary-foreground)] hover:brightness-110 shadow-sm shadow-[rgba(217,144,50,0.18)]',
+  secondary: 'bg-[#F7F3EC] text-[#10182A] hover:bg-[#fffaf0] shadow-sm',
   ghost: 'bg-transparent text-[var(--muted-foreground)] hover:bg-[var(--muted)] hover:text-[var(--foreground)]',
   danger: 'bg-[var(--destructive)] text-white hover:opacity-90',
   outline: 'bg-transparent border border-[var(--border)] text-[var(--foreground)] hover:bg-[var(--muted)]',
