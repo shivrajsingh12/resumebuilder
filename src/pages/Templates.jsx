@@ -820,8 +820,8 @@ export default function Templates({ onCreate, onToast }) {
       {/* Preview Modal */}
       <Modal open={Boolean(preview)} onClose={() => setPreview(null)} title={preview ? `${preview.name} Preview` : ''} size="xl" style={{ background: 'rgba(15,16,21,0.75)', backdropFilter: 'blur(10px)' }}>
         {preview && (
-          <div style={{ padding: '24px', animation: 'scaleIn 0.3s ease' }}>
-            <div style={{ background: colors.surfaceMuted, borderRadius: '14px', overflow: 'hidden', boxShadow: '0 24px 64px rgba(0,0,0,0.5)', maxHeight: '65vh', overflowY: 'auto' }}>
+          <div className="template-modal" style={{ padding: '0', animation: 'scaleIn 0.3s ease' }}>
+            <div className="template-modal__paper" style={{ background: colors.surfaceMuted, borderRadius: '14px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}>
               <PreviewTemplate resume={previewResume} templateId={preview.id} />
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px', gap: '12px', flexWrap: 'wrap' }}>

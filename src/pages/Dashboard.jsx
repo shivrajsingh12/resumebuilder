@@ -45,26 +45,9 @@ export default function Dashboard({ resumes, onCreate, onDuplicate, onDelete, on
 
   return (
     <div className="min-h-screen bg-[var(--background)]">
-      {/* Topbar */}
-      {/* <div className="border-b border-[var(--border)] bg-[var(--card)] px-6 sm:px-8 py-4 flex items-center justify-between sticky top-0 z-10">
-        <div className="flex items-center gap-3">
-          <button onClick={() => navigate('/')} className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ background: 'var(--primary)' }}>R</div>
-            <span className="font-bold text-lg tracking-tight">ResumeForge</span>
-          </button>
-          <span className="text-[var(--border)]">/</span>
-          <span className="text-sm font-medium text-[var(--muted-foreground)]">Dashboard</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <button onClick={() => navigate('/ats')} className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors px-3 py-2 rounded-lg hover:bg-[var(--muted)]">Resume & Job Match</button>
-          <button onClick={onToggleDark} className="w-9 h-9 flex items-center justify-center rounded-lg bg-[var(--muted)] hover:bg-[var(--border)] transition-colors text-lg">
-            {darkMode ? '☀️' : '🌙'}
-          </button>
-          <Button onClick={() => setCreateModal(true)}>+ New Resume</Button>
-        </div>
-      </div> */}
+      
 
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 py-8">
+      <div className="page-shell py-8 sm:py-10">
         {/* Header */}
         {/* <div className="mb-8">
           <h1 className="text-3xl font-bold text-[var(--foreground)] mb-1">My Resumes</h1>

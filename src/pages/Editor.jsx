@@ -87,7 +87,7 @@ export default function Editor({ getResume, updateResume, undo, redo, canUndo, c
   return (
     <div className="h-screen flex flex-col bg-[var(--background)] overflow-hidden">
       {/* Top bar */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border)] bg-[var(--card)] flex-shrink-0">
+      <div className="flex items-center justify-between px-4 sm:px-5 py-3 border-b border-[var(--border)] bg-[var(--card)] flex-shrink-0">
         <div className="flex items-center gap-3">
           <button onClick={() => navigate('/dashboard')} className="flex items-center gap-1.5 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">
             ← <span className="hidden sm:inline">Dashboard</span>

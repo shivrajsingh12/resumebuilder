@@ -14,7 +14,7 @@ const templates = [['Modern', 'Clear hierarchy', 'modern'], ['Executive', 'Confi
 // Profile used across the preview + template band. Swap this to re-brand the whole page.
 const profile = {
   name: 'Shivraj Singh Chouhan',
-  title: 'Frontend Developer',
+  title: 'Developer',
   contact: 'shivrajbana2003@gmail.com · India',
   initials: 'SC',
   github: 'https://github.com/shivrajsingh12',
@@ -23,7 +23,7 @@ const profile = {
 };
 
 function ResumePreview() {
-  return <div className="home-preview-wrap"><div className="home-preview-badge home-preview-badge--score"><b>92</b><span>ATS ready</span></div><div className="home-resume-preview"><div className="home-resume-preview__head"><div className="home-avatar">{profile.initials}</div><div><b>{profile.name}</b><span>{profile.title}</span><small>{profile.contact}</small></div></div><div className="home-resume-preview__line" /><PreviewSection title="Summary"><p>Frontend developer and CS undergraduate building responsive, high-performance interfaces with React, Next.js, and clean component architecture.</p></PreviewSection><PreviewSection title="Education"><strong>B.Tech, Computer Science &amp; Engineering</strong><small>Chameli Devi Group of Institutions · 2022 – 2026</small></PreviewSection><PreviewSection title="Selected projects"><strong>Bharatiya Virasat</strong><small>Responsive React app showcasing India's cultural heritage, deployed on Vercel.</small></PreviewSection><div className="home-skill-row"><span>React.js</span><span>Next.js</span><span>GSAP</span></div></div><div className="home-preview-badge home-preview-badge--keywords"><b>3</b><span>improvements<br />to make</span></div></div>;
+  return <div className="home-preview-wrap"><div className="home-preview-badge home-preview-badge--score"><b>92</b><span>ATS ready</span></div><div className="home-resume-preview"><div className="home-resume-preview__head"><div className="home-avatar">{profile.initials}</div><div><b>{profile.name}</b><span>{profile.title}</span><small>{profile.contact}</small></div></div><div className="home-resume-preview__line" /><PreviewSection title="Summary"><p>Frontend developer and CS undergraduate building responsive, high-performance interfaces with React, Next.js, and clean component architecture.</p></PreviewSection><PreviewSection title="Education"><strong>B.Tech, Computer Science &amp; Engineering</strong><small>2022 – 2026</small></PreviewSection><PreviewSection title="Selected projects"><strong>Bharatiya Virasat</strong><small>Responsive React app showcasing India's cultural heritage, deployed on Vercel.</small></PreviewSection><div className="home-skill-row"><span>React.js</span><span>Next.js</span><span>GSAP</span></div></div><div className="home-preview-badge home-preview-badge--keywords"><b>3</b><span>improvements<br />to make</span></div></div>;
 }
 function PreviewSection({ title, children }) { return <section className="home-resume-preview__section"><b>{title}</b>{children}</section>; }
 

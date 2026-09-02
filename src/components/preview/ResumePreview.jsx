@@ -1,12 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TEMPLATES } from '../../templates';
 
 export default function ResumePreview({ resume }) {
   const [zoom, setZoom] = useState(0.6);
-  const [mobileView, setMobileView] = useState(false);
+  const previewAreaRef = useRef(null);
 
   const Template = TEMPLATES[resume.template] || TEMPLATES.modern;
   const A4_PX = 794; // 210mm at 96dpi
+  const A4_HEIGHT_PX = 1123; // 297mm at 96dpi
+
+  // Fit the visual A4 bounds (not the unscaled DOM box) into the available
+  // preview pane. This keeps the page truly centred with matching side space.
+  useEffect(() => {
+    const area = previewAreaRef.current;
+    if (!area) return undefined;
+    const fit = () => {
+      const width = Math.max(0, area.clientWidth - 48);
+      const height = Math.max(0, area.clientHeight - 48);
+      if (width && height) setZoom(Math.min(1.5, +(Math.min(width / A4_PX, height / A4_HEIGHT_PX).toFixed(2))));
+    };
+    fit();
+    const observer = new ResizeObserver(fit);
+    observer.observe(area);
+    return () => observer.disconnect();
+  }, []);
 
   const handlePrint = () => {
     window.open(`/resume/${resume.id}/print`, '_blank', 'noopener,noreferrer');
@@ -20,17 +37,10 @@ export default function ResumePreview({ resume }) {
           <button onClick={() => setZoom(z => Math.max(0.3, +(z - 0.1).toFixed(1)))} className="w-7 h-7 flex items-center justify-center rounded-lg text-sm bg-[var(--muted)] hover:bg-[var(--border)] transition-colors font-bold">−</button>
           <span className="text-xs font-mono text-[var(--muted-foreground)] w-10 text-center">{Math.round(zoom * 100)}%</span>
           <button onClick={() => setZoom(z => Math.min(1.5, +(z + 0.1).toFixed(1)))} className="w-7 h-7 flex items-center justify-center rounded-lg text-sm bg-[var(--muted)] hover:bg-[var(--border)] transition-colors font-bold">+</button>
-          <button onClick={() => setZoom(0.6)} className="text-xs px-2 h-7 rounded-lg bg-[var(--muted)] hover:bg-[var(--border)] transition-colors text-[var(--muted-foreground)]">Fit</button>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <button
-            onClick={() => setMobileView(false)}
-            className={`text-xs px-2.5 py-1 rounded-lg transition-colors ${!mobileView ? 'bg-[var(--primary)] text-white' : 'bg-[var(--muted)] text-[var(--muted-foreground)] hover:bg-[var(--border)]'}`}
-          >Desktop</button>
-          <button
-            onClick={() => setMobileView(true)}
-            className={`text-xs px-2.5 py-1 rounded-lg transition-colors ${mobileView ? 'bg-[var(--primary)] text-white' : 'bg-[var(--muted)] text-[var(--muted-foreground)] hover:bg-[var(--border)]'}`}
-          >Mobile</button>
+          <button onClick={() => {
+            const area = previewAreaRef.current;
+            if (area) setZoom(+(Math.min((area.clientWidth - 48) / A4_PX, (area.clientHeight - 48) / A4_HEIGHT_PX).toFixed(2)));
+          }} className="text-xs px-2 h-7 rounded-lg bg-[var(--muted)] hover:bg-[var(--border)] transition-colors text-[var(--muted-foreground)]">Fit</button>
         </div>
         <div className="flex items-center gap-1.5">
           <button onClick={handlePrint} className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-[var(--muted)] hover:bg-[var(--border)] text-[var(--foreground)] transition-colors">
@@ -45,18 +55,17 @@ export default function ResumePreview({ resume }) {
       </div>
 
       {/* Preview area */}
-      <div className="flex-1 overflow-auto flex items-start justify-center p-8" style={{ minHeight: 0 }}>
+      <div ref={previewAreaRef} className="flex-1 overflow-auto flex items-start justify-center p-6" style={{ minHeight: 0 }}>
         <div
           className="resume-preview-scale"
           style={{
-            transform: `scale(${zoom})`,
-            transformOrigin: 'top center',
-            width: mobileView ? 375 : A4_PX,
-            boxShadow: '0 4px 32px rgba(0,0,0,0.15)',
-            marginBottom: `${(1 - zoom) * -100}%`,
+            position: 'relative',
+            width: A4_PX * zoom,
+            height: A4_HEIGHT_PX * zoom,
+            flex: '0 0 auto',
           }}
         >
-          <div id="resume-print">
+          <div id="resume-print" style={{ width: A4_PX, transform: `scale(${zoom})`, transformOrigin: 'top left', boxShadow: '0 4px 32px rgba(0,0,0,0.15)' }}>
             <Template resume={resume} />
           </div>
         </div>

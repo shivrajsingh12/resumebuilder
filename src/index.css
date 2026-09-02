@@ -30,6 +30,20 @@
   --sidebar: #171A21;
   --sidebar-foreground: #F5F1E8;
   --shadow-soft: 0 18px 48px rgba(0, 0, 0, 0.28);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --page-padding-x: clamp(1rem, 2.2vw, 2rem);
+  --page-padding-y: clamp(1.5rem, 3vw, 2.5rem);
+  --container-width: min(1200px, calc(100% - 2 * var(--page-padding-x)));
 }
 
 .dark {
@@ -66,12 +80,48 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
+  line-height: 1.5;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at top left, rgba(217, 144, 50, 0.10), transparent 30%),
     radial-gradient(circle at bottom right, rgba(40, 119, 101, 0.16), transparent 26%),
     var(--background);
   color: var(--foreground);
   transition: background 0.2s, color 0.2s;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  line-height: 1.5;
+}
+
+button, input, select, textarea, p, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+main, section, article, div, form, nav, aside, header, footer {
+  min-width: 0;
+}
+
+.page-shell {
+  width: var(--container-width);
+  margin-inline: auto;
+  padding-inline: var(--page-padding-x);
+}
+
+.content-stack > * + *,
+.section-stack > * + *,
+.card-stack > * + * {
+  margin-top: var(--space-4);
 }
 
 ::selection {
@@ -306,6 +356,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 @media (max-width:800px) { .job-check-page { padding-top:112px; }.job-check-hero { display:block; }.job-check-hero>button { margin-top:15px; }.job-check-layout { grid-template-columns:1fr; }.job-check-results { order:-1; }.job-empty { min-height:225px; } }
 @media (max-width:480px) { .job-check-card,.job-breakdown,.job-suggestions { padding:15px; }.job-category-grid,.job-keywords { grid-template-columns:1fr; }.job-detected { grid-template-columns:1fr 1fr; }.job-score { align-items:flex-start; gap:13px; padding:16px; }.job-score-ring { width:90px; height:90px; flex-basis:90px; }.job-score-ring:before { inset:7px; }.job-score h2 { font-size:18px; }.job-optional>button small { display:none; } }
 
+/* Scale modal A4 previews to the viewport; transformed content retains its full
+   layout while its visual size stays inside the dialog. */
+.template-modal__paper{width:94.5mm;height:133.65mm;max-width:calc(100vw - 72px);max-height:62vh;overflow:hidden;padding:0;align-items:flex-start;margin-left:auto;margin-right:auto}
+.template-modal__paper .resume-page{width:210mm;min-width:210mm;flex:none;transform:scale(.45);margin:0}
+@media (max-height:760px){.template-modal__paper{width:79.8mm;height:112.86mm}.template-modal__paper .resume-page{transform:scale(.38)}}
+@media (max-width:600px){.template-modal__paper{width:73.5mm;height:103.95mm}.template-modal__paper .resume-page{transform:scale(.35)}}
+
 /* The print route is deliberately outside the editor's scaled, scrollable flex tree. */
 .print-route{width:210mm;min-height:297mm;margin:0 auto;background:#fff}.resume-columns{width:100%;max-width:100%;min-width:0;grid-template-columns:58mm minmax(0,1fr);gap:5mm}.resume-sidebar,.resume-main,.resume-header>div{min-width:0;max-width:100%;overflow-wrap:anywhere;word-break:break-word}.resume-entry__head{min-width:0}.resume-entry__head>div{min-width:0;overflow-wrap:anywhere}.resume-entry h3,.resume-entry p,.resume-entry li{overflow-wrap:anywhere;word-break:break-word}
 
@@ -315,11 +372,17 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   *{box-sizing:border-box!important}
   .folio-header,.no-print{display:none!important}
   .print-route,#resume-print{position:static!important;width:210mm!important;min-width:210mm!important;max-width:210mm!important;margin:0!important;padding:0!important;overflow:visible!important;background:#fff!important}
-  .resume-print-page{width:210mm!important;min-width:210mm!important;max-width:210mm!important;min-height:297mm!important;margin:0!important;padding:12mm 14mm!important;transform:none!important;zoom:1!important;overflow:visible!important;box-shadow:none!important}
+  /* Keep the renderer's own template padding, columns and typography. The old
+     fixed padding here overwrote every selected template during printing. */
+  .resume-print-page{width:210mm!important;min-width:210mm!important;max-width:210mm!important;min-height:297mm!important;margin:0!important;transform:none!important;zoom:1!important;overflow:visible!important;box-shadow:none!important}
   .resume-columns{display:grid!important;width:100%!important;max-width:100%!important;min-width:0!important;grid-template-columns:58mm minmax(0,1fr)!important;gap:5mm!important}
   .resume-sidebar,.resume-main{min-width:0!important;max-width:100%!important;overflow:visible!important;overflow-wrap:anywhere!important;word-break:break-word!important}
   .resume-header{max-width:100%!important}.resume-contact{max-width:72mm!important;overflow-wrap:anywhere!important;word-break:break-word!important}
-  .resume-section,.resume-entry{break-inside:avoid!important;page-break-inside:avoid!important}.resume-section h2{break-after:avoid!important;page-break-after:avoid!important}
+  /* Entries stay intact where they fit, but sections may flow across A4 pages.
+     Avoiding an entire long section was the cause of the large empty areas. */
+  .resume-section{break-inside:auto!important;page-break-inside:auto!important}.resume-entry{break-inside:avoid!important;page-break-inside:avoid!important}.resume-section h2{break-after:avoid!important;page-break-after:avoid!important}
+  /* The generic print page is block-level; restore grid templates explicitly. */
+  .resume-template--twoColumn,.resume-template--sidebar{display:grid!important;grid-template-columns:35% 65%!important}
 }
 
 /* Template variants share data rendering but use deliberately different visual grammar. */
@@ -421,8 +484,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .academic-heading .resume-contact { max-width: none; text-align: left; font-family: var(--resume-font); }
 .academic-heading>p { margin: 2mm 0 0; font-style: italic; }
 .resume-template--academic .resume-section h2 { color: var(--resume-text); border-color: var(--resume-text); }
+/* Template cards render the real A4 page inside a width-aware scale wrapper.
+   The page used to receive a second .28 scale here, leaving an unnecessarily
+   tiny document in a large preview canvas. Keep that small, card-only scale
+   deliberate: it lets the complete A4 sheet sit inside the fixed preview with
+   breathing room while preserving every template's proportions. */
 .template-card__preview { height: 305px; overflow: hidden; background: #e9e5dc; display: flex; justify-content: center; padding-top: 14px; }
-.template-card__preview .resume-page { transform: scale(.28); transform-origin: top center; flex-shrink: 0; }
+.template-card__preview .resume-page { transform: scale(.5); transform-origin: top center; flex-shrink: 0; }
 .template-card--recommended { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(36,91,85,.12); }
 .template-card__title { display: flex; justify-content: space-between; gap: 8px; align-items: start; }
 .template-recommended { color: var(--primary); font-size: 10px; font-weight: 800; text-transform: uppercase; white-space: nowrap; }
